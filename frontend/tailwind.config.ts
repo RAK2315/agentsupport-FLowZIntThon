@@ -19,6 +19,7 @@ const config: Config = {
         },
       },
       fontFamily: {
+        display: ["Instrument Serif", "Georgia", "serif"],
         mono: [
           "JetBrains Mono",
           "ui-monospace",
@@ -28,6 +29,9 @@ const config: Config = {
           "Consolas",
           "monospace",
         ],
+      },
+      borderOpacity: {
+        6: "0.06",
       },
     },
   },

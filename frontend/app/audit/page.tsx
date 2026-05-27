@@ -13,7 +13,7 @@ function AuditPageInner({
     <div className="min-h-screen bg-[#0a0a0a] text-white">
       <div className="border-b border-zinc-800 bg-zinc-950 px-6 py-4 flex items-center gap-4">
         <Link
-          href="/"
+          href="/app"
           className="text-zinc-400 hover:text-indigo-400 transition-colors text-sm flex items-center gap-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,7 +36,7 @@ function AuditPageInner({
         {!sessionId ? (
           <div className="text-zinc-500 text-sm text-center py-12 border border-zinc-800 bg-zinc-900">
             No session ID provided.{" "}
-            <Link href="/" className="text-indigo-400 hover:underline">
+            <Link href="/app" className="text-indigo-400 hover:underline">
               Start a chat
             </Link>{" "}
             first.
