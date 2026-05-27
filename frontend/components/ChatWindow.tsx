@@ -58,7 +58,8 @@ function MessageBubble({ msg }: { msg: Message }) {
 
 export default function ChatWindow() {
   const router = useRouter();
-  const [sessionId] = useState<string>(() => uuidv4());
+  const [sessionId, setSessionId] = useState<string>("");
+  useEffect(() => { setSessionId(uuidv4()); }, []);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "agent",
