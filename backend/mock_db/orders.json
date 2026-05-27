@@ -1,0 +1,56 @@
+[
+  {
+    "order_id": "ORD-001",
+    "customer_name": "Sarah Mitchell",
+    "item": "Sony WH-1000XM5 Noise Cancelling Headphones",
+    "status": "delivered",
+    "amount": 349.99,
+    "delivery_date": "2026-05-20",
+    "notes": "Delivered successfully to front door"
+  },
+  {
+    "order_id": "ORD-002",
+    "customer_name": "James Thornton",
+    "item": "Samsung 65-inch QLED 4K Smart TV",
+    "status": "delayed",
+    "amount": 1299.00,
+    "delivery_date": "2026-06-05",
+    "notes": "Delayed due to warehouse backlog; estimated delivery pushed by 10 days"
+  },
+  {
+    "order_id": "ORD-003",
+    "customer_name": "Priya Sharma",
+    "item": "Apple AirPods Pro (2nd Gen)",
+    "status": "wrong_item",
+    "amount": 249.99,
+    "delivery_date": "2026-05-22",
+    "notes": "Customer received Blue Wireless Headphones instead of ordered AirPods Pro"
+  },
+  {
+    "order_id": "ORD-004",
+    "customer_name": "Derek Okafor",
+    "item": "Logitech MX Master 3S Mouse",
+    "status": "already_refunded",
+    "amount": 99.99,
+    "delivery_date": "2026-05-10",
+    "notes": "Refund processed on 2026-05-15; amount credited to original payment method"
+  },
+  {
+    "order_id": "ORD-005",
+    "customer_name": "Emily Chen",
+    "item": "Apple iPad Air 11-inch (M2)",
+    "status": "in_transit",
+    "amount": 599.00,
+    "delivery_date": "2026-05-30",
+    "notes": "Package in transit; currently at regional distribution center"
+  },
+  {
+    "order_id": "ORD-006",
+    "customer_name": "Marcus Webb",
+    "item": "Dyson V15 Detect Cordless Vacuum",
+    "status": "returned",
+    "amount": 749.99,
+    "delivery_date": "2026-05-08",
+    "notes": "Customer initiated return on 2026-05-18; item received at warehouse, refund pending"
+  }
+]

@@ -1,0 +1,26 @@
+# Environment — never commit real keys
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+venv/
+.venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# ChromaDB local store
+chroma_store/
+
+# IDE
+.vscode/
+.idea/
+*.swp
