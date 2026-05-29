@@ -18,14 +18,6 @@ function Hero() {
 
           {/* Left: headline + CTAs */}
           <div className="max-w-2xl">
-            <div
-              className="hero-1 inline-flex items-center gap-2 px-3 py-1.5 font-mono text-xs mb-8"
-              style={{ border: `1px solid ${B}`, color: T3, letterSpacing: "0.10em" }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-ring" />
-              LangGraph · Groq · ChromaDB
-            </div>
-
             <h1
               className="hero-2 font-display mb-6"
               style={{
@@ -203,38 +195,68 @@ function Features() {
 }
 
 /* ─── Process — 3 step visual ────────────────────────────────── */
-function Process() {
-  const steps = [
-    { n: "1", icon: "💬", label: "Customer sends a message", note: "Natural language — no structured input required" },
-    { n: "2", icon: "⚙", label: "Agent plans and executes", note: "Up to 8 tool calls in sequence, per LangGraph" },
-    { n: "3", icon: "📋", label: "Full audit trail generated", note: "Every step logged, replayable at any time" },
-  ];
+const PROCESS_STEPS = [
+  {
+    n: "1",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
+      </svg>
+    ),
+    label: "Customer sends a message",
+    note: "Natural language — no structured input required",
+  },
+  {
+    n: "2",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+      </svg>
+    ),
+    label: "Agent plans and executes",
+    note: "Up to 8 tool calls in sequence, per LangGraph",
+  },
+  {
+    n: "3",
+    icon: (
+      <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+      </svg>
+    ),
+    label: "Full audit trail generated",
+    note: "Every step logged, replayable at any time",
+  },
+];
 
+function Process() {
   return (
     <section style={{ paddingTop: 0, paddingBottom: 140, background: "#06060a" }}>
       <div className="max-w-6xl mx-auto px-8">
-        <Reveal>
-          <div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-px"
-            style={{ border: `1px solid ${B}` }}
-          >
-            {steps.map((s, i) => (
-              <div
-                key={s.n}
-                className="p-10"
-                style={{
-                  background: "#0a0a0f",
-                  borderRight: i < 2 ? `1px solid ${B}` : undefined,
-                }}
-              >
-                <div className="font-mono text-3xl mb-6" style={{ opacity: 0.7 }}>{s.icon}</div>
-                <div className="font-mono text-xs uppercase tracking-widest mb-3" style={{ color: T3, letterSpacing: "0.12em" }}>Step {s.n}</div>
-                <h3 className="font-display mb-3" style={{ fontSize: 22, color: T1, lineHeight: 1.2 }}>{s.label}</h3>
-                <p style={{ fontSize: 14, color: T2, lineHeight: 1.6 }}>{s.note}</p>
-              </div>
-            ))}
-          </div>
-        </Reveal>
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-px"
+          style={{ border: `1px solid ${B}` }}
+        >
+          {PROCESS_STEPS.map((s, i) => (
+            <div
+              key={s.n}
+              className="process-card"
+              style={{
+                background: "#0a0a0f",
+                borderRight: i < 2 ? `1px solid ${B}` : undefined,
+              }}
+            >
+              <Reveal delay={i * 130}>
+                <div className="p-10">
+                  <div className="process-icon mb-6" style={{ color: "rgba(255,255,255,0.65)" }}>{s.icon}</div>
+                  <div className="font-mono text-xs uppercase tracking-widest mb-3" style={{ color: T3, letterSpacing: "0.12em" }}>Step {s.n}</div>
+                  <h3 className="font-display mb-3" style={{ fontSize: 22, color: T1, lineHeight: 1.2 }}>{s.label}</h3>
+                  <p style={{ fontSize: 14, color: T2, lineHeight: 1.6 }}>{s.note}</p>
+                </div>
+              </Reveal>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -286,7 +308,7 @@ function AuditShowcase() {
           <div>
             <div className="space-y-1">
               {STEPS.map((s, i) => (
-                <Reveal key={s.num} delay={i * 55}>
+                <Reveal key={s.num} delay={i * 100} className="audit-row-reveal">
                   <div
                     className="step-row flex items-center gap-3 px-4 py-3.5"
                     style={{ border: `1px solid ${B}`, background: "#0c0c13" }}
