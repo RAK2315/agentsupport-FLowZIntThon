@@ -1,173 +1,204 @@
 import Link from "next/link";
-import {
-  NavClient,
-  TerminalClient,
-  ScrollReveal,
-} from "../components/LandingInteractive";
+import { NavClient, TerminalClient, Reveal } from "../components/LandingInteractive";
 
-/* ─── Stats bar ──────────────────────────────────────────────── */
-function StatsBar() {
-  const stats = [
-    { value: "4", label: "AI tools" },
-    { value: "8", label: "max steps" },
-    { value: "RAG", label: "policy lookup" },
-    { value: "100%", label: "auditable" },
-    { value: "0", label: "paid infra" },
-  ];
+/* ─── Hero ──────────────────────────────────────────────────── */
+function Hero() {
   return (
-    <div className="border-y border-white/5 bg-white/[0.015]">
-      <div className="max-w-6xl mx-auto px-6 py-4">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          {stats.map((s, i) => (
-            <div key={i} className="flex items-baseline gap-2">
-              <span className="font-mono text-xl font-medium text-indigo-300">{s.value}</span>
-              <span className="text-zinc-600 text-sm">{s.label}</span>
-            </div>
-          ))}
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 pt-24 pb-16 overflow-hidden bg-noise">
+      {/* Ambient glow behind terminal */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[60%] pointer-events-none"
+        style={{ background: "radial-gradient(ellipse 70% 60% at 50% 110%, rgba(139,92,246,0.08) 0%, transparent 70%)" }}
+      />
+      {/* Faint top fade */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-48 pointer-events-none"
+        style={{ background: "linear-gradient(to bottom, #08080b 0%, transparent 100%)" }}
+      />
+
+      <div className="relative z-10 flex flex-col items-center text-center max-w-3xl mx-auto">
+        {/* Label */}
+        <div className="hero-1 flex items-center gap-2 mb-8 px-3 py-1.5 border border-white/8 bg-white/[0.03] font-mono text-[11px] text-[#52525e] tracking-widest uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-ring" />
+          LangGraph · Groq · ChromaDB
         </div>
-      </div>
-    </div>
-  );
-}
 
-/* ─── Features ───────────────────────────────────────────────── */
-const FEATURES = [
-  {
-    icon: (
-      <svg className="w-5 h-5 feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-      </svg>
-    ),
-    color: "text-violet-400 bg-violet-500/10 border-violet-500/20",
-    title: "Multi-step reasoning",
-    body: "LangGraph orchestrates up to 8 sequential tool calls per turn. The agent plans the full action sequence before executing — order lookup, refund, ticket — in one shot.",
-    tag: "LangGraph",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-      </svg>
-    ),
-    color: "text-amber-400 bg-amber-500/10 border-amber-500/20",
-    title: "Full audit trail",
-    body: "Every decision, tool call, input, output, and timestamp is logged per session. Replay any conversation step-by-step to understand exactly what the agent did and why.",
-    tag: "Transparency",
-  },
-  {
-    icon: (
-      <svg className="w-5 h-5 feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-      </svg>
-    ),
-    color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20",
-    title: "RAG policy lookup",
-    body: "Return policies, warranty terms, escalation procedures — all embedded into ChromaDB at startup with sentence-transformers. The agent retrieves the right chunk semantically, not by keyword.",
-    tag: "ChromaDB · all-MiniLM-L6",
-  },
-];
+        {/* Headline */}
+        <h1 className="hero-2 font-display leading-[0.92] tracking-tight mb-6">
+          <span className="block text-6xl sm:text-7xl lg:text-8xl text-[#ededf0]">The support agent</span>
+          <span className="block text-6xl sm:text-7xl lg:text-8xl text-[#ededf0]/25 italic">that reasons</span>
+          <span className="block text-6xl sm:text-7xl lg:text-8xl text-[#ededf0]">out loud.</span>
+        </h1>
 
-function Features() {
-  return (
-    <section className="py-24 relative">
-      <div className="max-w-6xl mx-auto px-6">
-        <ScrollReveal className="mb-14">
-          <p className="text-indigo-400 font-mono text-xs tracking-widest uppercase mb-3">How it works</p>
-          <h2 className="font-display text-4xl lg:text-5xl text-white leading-tight">
-            Not a chatbot.
-            <br />
-            <em className="text-zinc-400">An agent.</em>
-          </h2>
-        </ScrollReveal>
+        {/* Sub */}
+        <p className="hero-3 text-base text-[#52525e] leading-relaxed mb-10 max-w-md">
+          Multi-step AI agent. Looks up orders, initiates refunds, creates tickets.
+          Every decision logged, replayable, inspectable.
+        </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {FEATURES.map((f, i) => (
-            <ScrollReveal key={i} delay={i * 90}>
-              <div className="feature-card border border-white/[0.06] bg-[#0f0f14] p-6 hover:border-white/10 h-full">
-                <div className={`w-9 h-9 border flex items-center justify-center mb-5 ${f.color}`}>
-                  {f.icon}
-                </div>
-                <h3 className="text-white font-semibold text-base mb-3">{f.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed mb-5">{f.body}</p>
-                <span className="inline-block text-[10px] font-mono text-zinc-600 border border-white/5 px-2 py-0.5">
-                  {f.tag}
-                </span>
-              </div>
-            </ScrollReveal>
-          ))}
+        {/* CTAs */}
+        <div className="hero-4 flex items-center gap-3 mb-14 flex-wrap justify-center">
+          <Link
+            href="/app"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white text-sm font-mono btn-press"
+            style={{ transition: "background 150ms cubic-bezier(0.16,1,0.3,1)" }}
+          >
+            Try the demo
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <a
+            href="https://github.com/RAK2315/agentsupport-FLowZIntThon"
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-white/12 text-[#52525e] hover:text-[#ededf0] hover:border-white/25 text-sm font-mono btn-press"
+            style={{ transition: "color 150ms, border-color 150ms" }}
+          >
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+            </svg>
+            Source
+          </a>
+        </div>
+
+        {/* Terminal — the product */}
+        <div className="hero-5 w-full max-w-lg mx-auto">
+          <TerminalClient />
         </div>
       </div>
     </section>
   );
 }
 
+/* ─── Features (numbered horizontal list) ───────────────────── */
+const FEATURES = [
+  {
+    num: "01",
+    title: "Multi-step reasoning",
+    body: "LangGraph orchestrates up to 8 tool calls per turn. The agent plans the complete action sequence upfront — order lookup, refund, ticket — then executes in order without needing follow-up prompts.",
+    accent: "#8b5cf6",
+  },
+  {
+    num: "02",
+    title: "Full audit trail",
+    body: "Every node visit, tool call, input payload, output, and reasoning string is timestamped and stored per session. Replay any conversation step-by-step at 800ms intervals.",
+    accent: "#f59e0b",
+  },
+  {
+    num: "03",
+    title: "RAG policy lookup",
+    body: "Return policies, warranty terms, and escalation procedures are embedded into ChromaDB at startup using sentence-transformers on CPU. The agent retrieves by semantic similarity, not keyword.",
+    accent: "#10b981",
+  },
+];
+
+function Features() {
+  return (
+    <section className="py-24 max-w-5xl mx-auto px-6">
+      <Reveal className="mb-14">
+        <p className="font-mono text-[11px] text-[#52525e] tracking-widest uppercase mb-4">How it works</p>
+        <h2 className="font-display text-4xl lg:text-5xl text-[#ededf0] leading-tight">
+          Not a chatbot.
+          <br />
+          <em className="text-[#ededf0]/30">An agent.</em>
+        </h2>
+      </Reveal>
+
+      <div>
+        {FEATURES.map((f, i) => (
+          <Reveal key={f.num} delay={i * 80}>
+            <div className="feature-row flex items-start gap-8 py-8 px-0 cursor-default">
+              <span className="row-num font-mono text-2xl text-[#2a2a35] shrink-0 w-10 pt-0.5">{f.num}</span>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-8">
+                  <h3
+                    className="font-display text-xl text-[#ededf0] shrink-0 sm:w-52 mb-2 sm:mb-0"
+                    style={{ color: undefined }}
+                  >
+                    {f.title}
+                  </h3>
+                  <p className="text-sm text-[#52525e] leading-relaxed">{f.body}</p>
+                </div>
+              </div>
+              <div
+                className="hidden sm:block w-1 h-1 rounded-full mt-2.5 shrink-0"
+                style={{ background: f.accent, opacity: 0.6 }}
+              />
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 /* ─── Audit showcase ─────────────────────────────────────────── */
-const AUDIT_STEPS = [
-  { num: "01", node: "intent_router", tool: null, color: "bg-violet-900/40 text-violet-300 border-violet-700/40", reasoning: "Classified as wrong_item · planned 3 tools" },
-  { num: "02", node: "audit_logger", tool: "order_lookup()", color: "bg-zinc-800/60 text-zinc-400 border-zinc-700/40", reasoning: "order_id: ORD-003 → status: wrong_item · $249.99" },
-  { num: "03", node: "audit_logger", tool: "refund_trigger()", color: "bg-zinc-800/60 text-zinc-400 border-zinc-700/40", reasoning: "refund_initiated · timeline: 5-7 business days" },
-  { num: "04", node: "audit_logger", tool: "ticket_create()", color: "bg-zinc-800/60 text-zinc-400 border-zinc-700/40", reasoning: "TKT-389B3AB7 · priority: high · ETA: 2-4 hours" },
-  { num: "05", node: "responder",    tool: null, color: "bg-emerald-900/40 text-emerald-300 border-emerald-700/40", reasoning: "Generated customer-facing resolution message" },
+const STEPS = [
+  { num: "01", node: "intent_router",  tool: null,              badge: "bg-violet-900/50 text-violet-300 border-violet-700/40", note: "classified as wrong_item · planned 3 tools" },
+  { num: "02", node: "audit_logger",   tool: "order_lookup()",  badge: "bg-[#0f0f15] text-[#52525e] border-white/6",           note: "ORD-003 → wrong_item · $249.99" },
+  { num: "03", node: "audit_logger",   tool: "refund_trigger()",badge: "bg-[#0f0f15] text-[#52525e] border-white/6",           note: "refund_initiated · 5-7 business days" },
+  { num: "04", node: "audit_logger",   tool: "ticket_create()", badge: "bg-[#0f0f15] text-[#52525e] border-white/6",           note: "TKT-389B3AB7 · priority:high" },
+  { num: "05", node: "responder",      tool: null,              badge: "bg-emerald-900/50 text-emerald-300 border-emerald-700/40", note: "customer-facing response generated" },
 ];
 
 function AuditShowcase() {
   return (
-    <section className="py-24 bg-[#0a0a0f] border-y border-white/5">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 items-start">
-          <ScrollReveal className="lg:sticky lg:top-28">
-            <p className="text-amber-400 font-mono text-xs tracking-widest uppercase mb-3">Full transparency</p>
-            <h2 className="font-display text-4xl lg:text-5xl text-white leading-tight mb-6">
-              Watch the agent
+    <section
+      className="py-24 border-y"
+      style={{ borderColor: "rgba(255,255,255,0.06)", background: "#0a0a0e" }}
+    >
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 items-start">
+          <Reveal className="lg:sticky lg:top-24">
+            <p className="font-mono text-[11px] text-amber-500/70 tracking-widest uppercase mb-4">Transparent by design</p>
+            <h2 className="font-display text-4xl lg:text-5xl text-[#ededf0] leading-tight mb-6">
+              Watch it
               <br />
-              <em className="text-zinc-400">think out loud.</em>
+              <em className="text-[#ededf0]/30">think.</em>
             </h2>
-            <p className="text-zinc-500 text-base leading-relaxed mb-8">
-              Every session generates a timestamped audit trail. Click any step to inspect
-              the exact tool input, tool output, and reasoning. Hit Replay to watch it
-              animate step-by-step.
+            <p className="text-sm text-[#52525e] leading-relaxed mb-8 max-w-xs">
+              Every session produces a full audit trail. Inspect tool inputs, outputs,
+              and reasoning at each step. Hit Replay to animate the sequence.
             </p>
             <Link
               href="/app"
-              className="inline-flex items-center gap-2 px-5 py-2.5 border border-amber-500/30 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 text-sm font-medium btn-press"
-              style={{ transition: "background-color 150ms cubic-bezier(0.16,1,0.3,1)" }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 border border-amber-500/25 bg-amber-500/8 text-amber-400 hover:bg-amber-500/15 text-xs font-mono btn-press"
+              style={{ transition: "background 150ms cubic-bezier(0.16,1,0.3,1)" }}
             >
-              Try it live →
+              Run the demo →
             </Link>
-          </ScrollReveal>
+          </Reveal>
 
-          <div className="space-y-2">
-            {AUDIT_STEPS.map((s, i) => (
-              <ScrollReveal key={s.num} delay={i * 70}>
-                <div className="border border-white/[0.06] bg-[#0c0c12] px-4 py-3 flex items-center gap-3 group hover:border-white/10"
-                  style={{ transition: "border-color 200ms cubic-bezier(0.16,1,0.3,1)" }}>
-                  <span className="font-mono text-zinc-600 text-xs w-7 shrink-0">#{s.num}</span>
-                  <span className={`text-xs font-mono px-2 py-0.5 border shrink-0 ${s.color}`}>{s.node}</span>
+          {/* Step cards */}
+          <div className="space-y-1">
+            {STEPS.map((s, i) => (
+              <Reveal key={s.num} delay={i * 60}>
+                <div className="audit-step flex items-center gap-3 px-4 py-3 border group" style={{ borderColor: "rgba(255,255,255,0.06)", background: "#0c0c12" }}>
+                  <span className="font-mono text-[11px] text-[#2a2a35] w-6 shrink-0">#{s.num}</span>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 border shrink-0 ${s.badge}`}>{s.node}</span>
                   {s.tool && (
-                    <span className="text-xs font-mono text-zinc-500 bg-zinc-800/60 border border-zinc-700/40 px-2 py-0.5 shrink-0">
+                    <span className="text-[10px] font-mono text-[#52525e] border border-white/6 bg-white/[0.02] px-2 py-0.5 shrink-0">
                       {s.tool}
                     </span>
                   )}
-                  <span className="text-xs text-zinc-600 truncate ml-auto hidden sm:block">{s.reasoning}</span>
-                  <svg className="w-3.5 h-3.5 text-zinc-700 group-hover:text-zinc-500 shrink-0"
-                    style={{ transition: "color 200ms cubic-bezier(0.16,1,0.3,1)" }}
-                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+                  <span className="text-[10px] font-mono text-[#2a2a35] truncate ml-auto hidden sm:block">{s.note}</span>
                 </div>
-              </ScrollReveal>
+              </Reveal>
             ))}
-            <ScrollReveal delay={400}>
-              <div className="pt-2 flex items-center gap-3">
-                <div className="flex items-center gap-2 px-4 py-2 bg-indigo-600/20 border border-indigo-500/30 text-indigo-300 text-xs font-mono">
-                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+
+            <Reveal delay={350}>
+              <div className="pt-3 flex items-center gap-3">
+                <div className="flex items-center gap-2 px-3 py-2 border border-violet-500/25 bg-violet-500/8 text-violet-400 text-[10px] font-mono">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
                   </svg>
                   Replay Audit
                 </div>
-                <span className="text-zinc-700 text-xs font-mono">800ms per step · live in /audit</span>
+                <span className="text-[10px] font-mono text-[#2a2a35]">800ms per step · live in /audit</span>
               </div>
-            </ScrollReveal>
+            </Reveal>
           </div>
         </div>
       </div>
@@ -175,34 +206,32 @@ function AuditShowcase() {
   );
 }
 
-/* ─── Tech stack ─────────────────────────────────────────────── */
-const TECH = [
-  { name: "Groq", sub: "llama-3.3-70b-versatile", color: "border-orange-500/20 bg-orange-500/5" },
-  { name: "LangGraph", sub: "state graph · 5 nodes", color: "border-violet-500/20 bg-violet-500/5" },
-  { name: "FastAPI", sub: "async · CORS · lifespan", color: "border-teal-500/20 bg-teal-500/5" },
-  { name: "ChromaDB", sub: "persistent · CPU embed", color: "border-blue-500/20 bg-blue-500/5" },
-  { name: "Next.js 14", sub: "app router · TypeScript", color: "border-white/10 bg-white/[0.02]" },
-  { name: "Tailwind CSS", sub: "dark theme · animations", color: "border-sky-500/20 bg-sky-500/5" },
-];
+/* ─── Tech ───────────────────────────────────────────────────── */
+function Tech() {
+  const stack = [
+    { name: "Groq", note: "llama-3.3-70b-versatile", color: "#f59e0b" },
+    { name: "LangGraph", note: "5-node state graph", color: "#8b5cf6" },
+    { name: "FastAPI", note: "async + CORS", color: "#10b981" },
+    { name: "ChromaDB", note: "local persistent", color: "#60a5fa" },
+    { name: "Next.js 14", note: "app router + TS", color: "#ededf0" },
+    { name: "Tailwind", note: "no UI library", color: "#38bdf8" },
+  ];
 
-function TechStack() {
   return (
-    <section className="py-20">
-      <div className="max-w-6xl mx-auto px-6">
-        <ScrollReveal>
-          <p className="text-zinc-600 font-mono text-xs tracking-widest uppercase mb-8 text-center">Built with</p>
-        </ScrollReveal>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-          {TECH.map((t, i) => (
-            <ScrollReveal key={i} delay={i * 50}>
-              <div className={`border px-3 py-4 text-center ${t.color}`}>
-                <div className="text-white text-sm font-semibold mb-1">{t.name}</div>
-                <div className="text-zinc-600 text-[10px] font-mono leading-tight">{t.sub}</div>
-              </div>
-            </ScrollReveal>
+    <section className="py-20 max-w-5xl mx-auto px-6">
+      <Reveal>
+        <p className="font-mono text-[11px] text-[#2a2a35] tracking-widest uppercase mb-10 text-center">Built with</p>
+      </Reveal>
+      <Reveal delay={80}>
+        <div className="flex flex-wrap justify-center gap-x-8 gap-y-4">
+          {stack.map((t) => (
+            <div key={t.name} className="flex items-baseline gap-2">
+              <span className="font-mono text-sm font-medium" style={{ color: t.color }}>{t.name}</span>
+              <span className="font-mono text-[10px] text-[#2a2a35]">{t.note}</span>
+            </div>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -210,43 +239,35 @@ function TechStack() {
 /* ─── CTA ────────────────────────────────────────────────────── */
 function CTA() {
   return (
-    <section className="py-24 border-t border-white/5 relative overflow-hidden">
-      <div className="absolute inset-0 bg-dot-grid opacity-60 pointer-events-none" />
+    <section className="py-32 px-6 text-center bg-noise relative overflow-hidden">
       <div
+        aria-hidden
         className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 50% at 50% 100%, rgba(99,102,241,0.06) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse 50% 60% at 50% 50%, rgba(139,92,246,0.05) 0%, transparent 70%)" }}
       />
-      <div className="relative max-w-3xl mx-auto px-6 text-center">
-        <ScrollReveal>
-          <h2 className="font-display text-5xl lg:text-6xl text-white leading-tight mb-6">
-            See it handle
+      <div className="relative z-10 max-w-3xl mx-auto">
+        <Reveal>
+          <h2 className="font-display text-5xl sm:text-6xl lg:text-7xl text-[#ededf0] leading-[0.92] mb-8">
+            Send it your
             <br />
-            <em className="text-indigo-400">your hardest query.</em>
+            <em className="text-[#ededf0]/25">hardest query.</em>
           </h2>
-          <p className="text-zinc-500 text-lg mb-10 max-w-xl mx-auto">
-            Try the wrong-item demo, ask about your return policy, or request a refund.
-            The full audit trail is one click away.
+          <p className="text-sm text-[#52525e] mb-10 max-w-sm mx-auto leading-relaxed">
+            Wrong item, delayed order, refund request, policy question.
+            Watch the audit trail build in real time.
           </p>
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            <Link
-              href="/app"
-              className="inline-flex items-center gap-2.5 px-8 py-4 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-base btn-press group"
-              style={{ transition: "background-color 150ms cubic-bezier(0.16,1,0.3,1)" }}
-            >
-              Open AgentSupport
-              <svg
-                className="w-4 h-4"
-                style={{ transition: "transform 200ms cubic-bezier(0.16,1,0.3,1)" }}
-                fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </Link>
-          </div>
-          <p className="text-zinc-700 text-xs font-mono mt-6">
-            groq · langgraph · chromadb · no paid infra
-          </p>
-        </ScrollReveal>
+          <Link
+            href="/app"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-[#ededf0] text-[#08080b] text-sm font-mono font-medium hover:bg-white btn-press"
+            style={{ transition: "background 150ms cubic-bezier(0.16,1,0.3,1)" }}
+          >
+            Open AgentSupport
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+          <p className="mt-6 text-[10px] font-mono text-[#2a2a35]">groq · langgraph · chromadb · no paid infra</p>
+        </Reveal>
       </div>
     </section>
   );
@@ -255,115 +276,28 @@ function CTA() {
 /* ─── Footer ─────────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="border-t border-white/5 py-6">
-      <div className="max-w-6xl mx-auto px-6 flex items-center justify-between flex-wrap gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-5 h-5 bg-indigo-600 flex items-center justify-center">
-            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
-            </svg>
-          </div>
-          <span className="text-zinc-600 text-xs font-mono">AgentSupport</span>
-        </div>
-        <div className="flex items-center gap-5">
-          <Link href="/app" className="text-zinc-600 hover:text-zinc-400 text-xs font-mono"
-            style={{ transition: "color 150ms cubic-bezier(0.16,1,0.3,1)" }}>chat</Link>
-          <a
-            href="https://github.com/RAK2315/agentsupport-FLowZIntThon"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-zinc-600 hover:text-zinc-400 text-xs font-mono"
-            style={{ transition: "color 150ms cubic-bezier(0.16,1,0.3,1)" }}
-          >
-            github
-          </a>
-          <span className="text-zinc-700 text-xs font-mono">MIT license</span>
+    <footer className="border-t py-6 px-6" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
+      <div className="max-w-5xl mx-auto flex items-center justify-between flex-wrap gap-4">
+        <span className="font-mono text-[10px] text-[#2a2a35]">AgentSupport</span>
+        <div className="flex items-center gap-6">
+          <Link href="/app" className="font-mono text-[10px] text-[#2a2a35] hover:text-[#52525e]" style={{ transition: "color 150ms" }}>chat</Link>
+          <a href="https://github.com/RAK2315/agentsupport-FLowZIntThon" target="_blank" rel="noopener noreferrer" className="font-mono text-[10px] text-[#2a2a35] hover:text-[#52525e]" style={{ transition: "color 150ms" }}>github</a>
+          <span className="font-mono text-[10px] text-[#1e1e26]">MIT</span>
         </div>
       </div>
     </footer>
   );
 }
 
-/* ─── Hero ───────────────────────────────────────────────────── */
-function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center pt-14 overflow-hidden">
-      <div className="absolute inset-0 bg-dot-grid pointer-events-none" />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 80% 60% at 50% 0%, transparent 40%, #07070a 100%)" }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ background: "radial-gradient(ellipse 60% 80% at 100% 50%, rgba(99,102,241,0.03) 0%, transparent 60%)" }}
-      />
-
-      <div className="relative max-w-6xl mx-auto px-6 py-24 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-16 items-center">
-          {/* Left: text */}
-          <div className="max-w-2xl">
-            <div className="hero-1 inline-flex items-center gap-2 px-3 py-1 border border-indigo-500/30 bg-indigo-500/10 text-indigo-300 text-xs font-mono mb-8">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
-              LangGraph · Groq · ChromaDB · RAG
-            </div>
-
-            <h1 className="hero-2 font-display text-5xl sm:text-6xl lg:text-7xl text-white leading-[0.95] tracking-tight mb-6">
-              Customer support
-              <br />
-              <em className="text-indigo-400 not-italic">that thinks</em>
-              <br />
-              for itself.
-            </h1>
-
-            <p className="hero-3 text-zinc-400 text-lg leading-relaxed mb-10 max-w-lg">
-              A multi-step AI agent that looks up orders, initiates refunds, creates tickets,
-              and answers policy questions — all in one turn. Every decision fully auditable.
-            </p>
-
-            <div className="hero-4 flex items-center gap-4 flex-wrap">
-              <Link
-                href="/app"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-sm btn-press"
-                style={{ transition: "background-color 150ms cubic-bezier(0.16,1,0.3,1)" }}
-              >
-                Open the demo
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </Link>
-              <a
-                href="https://github.com/RAK2315/agentsupport-FLowZIntThon"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 hover:border-white/20 text-zinc-300 hover:text-white font-medium text-sm btn-press"
-                style={{ transition: "border-color 150ms cubic-bezier(0.16,1,0.3,1), color 150ms cubic-bezier(0.16,1,0.3,1)" }}
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
-                </svg>
-                View source
-              </a>
-            </div>
-          </div>
-
-          {/* Right: looping terminal with float */}
-          <TerminalClient />
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* ─── Page ───────────────────────────────────────────────────── */
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-[#07070a] text-white">
+    <div className="min-h-screen text-[#ededf0]" style={{ background: "#08080b" }}>
       <NavClient />
       <Hero />
-      <StatsBar />
       <Features />
       <AuditShowcase />
-      <TechStack />
+      <Tech />
       <CTA />
       <Footer />
     </div>
