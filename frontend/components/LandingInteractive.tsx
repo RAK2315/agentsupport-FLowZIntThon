@@ -113,7 +113,7 @@ function TerminalInner() {
           { cls:"step-3", pcls:"progress-2", color:"#60a5fa", bg:"bg-blue-500/50",   label:"order_lookup",  args:"(ORD-003)", sub:<>status: <span style={{color:"#ef4444"}}>wrong_item</span> · item: <span style={{color:"rgba(255,255,255,0.60)"}}>AirPods Pro</span> · $249.99</> },
           { cls:"step-4", pcls:"progress-3", color:"#10b981", bg:"bg-emerald-500/50",label:"refund_trigger", args:"(ORD-003)", sub:<>refund_initiated · <span style={{color:"#10b981"}}>$249.99</span> · 5-7 business days</> },
           { cls:"step-5", pcls:"progress-4", color:"#f59e0b", bg:"bg-amber-500/50",  label:"ticket_create",  args:"(priority:high)", sub:<>ticket: <span style={{color:"#f59e0b"}}>TKT-389B3AB7</span> · ETA: 2-4 hours</> },
-        ].map(s => (
+        ].map((s, i) => (
           <div key={s.label} className={s.cls}>
             <div className="flex items-center gap-2 font-mono text-xs mb-1" style={{ color: "rgba(255,255,255,0.35)" }}>
               <span style={{ color: s.color }}>▸ {s.label}</span>
