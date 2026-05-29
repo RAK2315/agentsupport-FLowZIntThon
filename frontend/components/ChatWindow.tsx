@@ -7,6 +7,12 @@ import { v4 as uuidv4 } from "uuid";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
+const T1 = "rgba(255,255,255,0.90)";
+const T2 = "rgba(255,255,255,0.52)";
+const T3 = "rgba(255,255,255,0.28)";
+const B1 = "rgba(255,255,255,0.10)";
+const B2 = "rgba(255,255,255,0.06)";
+
 interface Message { role: "user" | "agent"; content: string; }
 
 const SUGGESTIONS = [
@@ -19,14 +25,17 @@ const SUGGESTIONS = [
 function TypingIndicator() {
   return (
     <div className="flex items-end gap-3">
-      <div className="w-6 h-6 bg-violet-600 flex items-center justify-center shrink-0 text-[9px] text-white font-mono font-bold">A</div>
       <div
-        className="flex gap-1.5 items-center px-4 py-3 border"
-        style={{ background: "#0f0f15", borderColor: "rgba(255,255,255,0.07)" }}
+        className="w-6 h-6 shrink-0 flex items-center justify-center font-mono font-bold"
+        style={{ background: "#4f46e5", color: "white", fontSize: 9 }}
+      >A</div>
+      <div
+        className="flex gap-1.5 items-center px-4 py-3"
+        style={{ background: "#0f0f18", border: `1px solid ${B2}` }}
       >
-        <span className="typing-dot" />
-        <span className="typing-dot" />
-        <span className="typing-dot" />
+        <span className="dot" />
+        <span className="dot" />
+        <span className="dot" />
       </div>
     </div>
   );
@@ -37,19 +46,18 @@ function Bubble({ msg }: { msg: Message }) {
   return (
     <div className={`flex items-end gap-3 ${isUser ? "flex-row-reverse" : ""}`}>
       <div
-        className={`w-6 h-6 flex items-center justify-center shrink-0 text-[9px] font-mono font-bold ${
-          isUser ? "bg-[#1e1e2e] text-[#52525e]" : "bg-violet-600 text-white"
-        }`}
+        className="w-6 h-6 shrink-0 flex items-center justify-center font-mono font-bold text-[9px]"
+        style={isUser
+          ? { background: "rgba(255,255,255,0.07)", color: T3 }
+          : { background: "#4f46e5", color: "white" }}
       >
         {isUser ? "U" : "A"}
       </div>
       <div
-        className="max-w-[72%] px-4 py-3 text-sm leading-relaxed"
-        style={
-          isUser
-            ? { background: "#1e1e2e", color: "#ededf0", border: "1px solid rgba(255,255,255,0.08)" }
-            : { background: "#0f0f15", color: "#d4d4db", border: "1px solid rgba(255,255,255,0.06)" }
-        }
+        className="max-w-[74%] px-4 py-3 text-sm leading-relaxed"
+        style={isUser
+          ? { background: "rgba(255,255,255,0.08)", border: `1px solid ${B1}`, color: T1 }
+          : { background: "#0f0f18", border: `1px solid ${B2}`, color: T1 }}
       >
         {msg.content}
       </div>
@@ -77,7 +85,7 @@ export default function ChatWindow() {
     if (!msg || loading) return;
     setInput("");
     setShowSuggestions(false);
-    setMessages(prev => [...prev, { role: "user", content: msg }]);
+    setMessages(p => [...p, { role: "user", content: msg }]);
     setLoading(true);
     try {
       const res = await fetch(`${API_URL}/chat`, {
@@ -85,11 +93,11 @@ export default function ChatWindow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ session_id: sessionId, message: msg }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error();
       const data = await res.json();
-      setMessages(prev => [...prev, { role: "agent", content: data.response }]);
+      setMessages(p => [...p, { role: "agent", content: data.response }]);
     } catch {
-      setMessages(prev => [...prev, { role: "agent", content: "Connection error. Make sure the backend is running on port 8000." }]);
+      setMessages(p => [...p, { role: "agent", content: "Connection error. Make sure the backend server is running on port 8000." }]);
     } finally {
       setLoading(false);
     }
@@ -100,45 +108,35 @@ export default function ChatWindow() {
   };
 
   return (
-    <div className="flex flex-col h-screen" style={{ background: "#08080b" }}>
+    <div className="flex flex-col h-screen" style={{ background: "#06060a" }}>
       {/* Header */}
       <div
         className="shrink-0 px-6 py-3.5 flex items-center justify-between"
-        style={{ borderBottom: "1px solid rgba(255,255,255,0.07)", background: "#0a0a0e" }}
+        style={{ borderBottom: `1px solid ${B2}`, background: "#09090e" }}
       >
-        <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-2 group">
-            <span className="font-mono text-sm font-medium text-[#ededf0]">AgentSupport</span>
-            <span
-              className="text-[9px] font-mono px-1.5 py-0.5 border"
-              style={{ background: "rgba(139,92,246,0.1)", borderColor: "rgba(139,92,246,0.25)", color: "#8b5cf6" }}
-            >
-              beta
-            </span>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="font-mono text-sm font-medium" style={{ color: T1 }}>
+            AgentSupport
           </Link>
-          <div className="w-px h-4" style={{ background: "rgba(255,255,255,0.08)" }} />
-          <span className="flex items-center gap-1.5 text-[10px] font-mono text-[#52525e]">
+          <div className="w-px h-4" style={{ background: B1 }} />
+          <span className="flex items-center gap-1.5 font-mono text-xs" style={{ color: T2 }}>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-ring" />
             online
           </span>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {sessionId && (
-            <span className="hidden sm:block text-[10px] font-mono text-[#2a2a35] truncate max-w-[180px]">
+            <span className="hidden sm:block font-mono text-xs truncate max-w-[180px]" style={{ color: T3 }}>
               {sessionId.slice(0, 8)}…
             </span>
           )}
           <button
             onClick={() => sessionId && router.push(`/audit?session=${sessionId}`)}
-            className="text-[11px] font-mono px-3 py-1.5 btn-press"
-            style={{
-              border: "1px solid rgba(255,255,255,0.1)",
-              color: "#52525e",
-              transition: "color 150ms, border-color 150ms",
-            }}
-            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#ededf0"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.2)"; }}
-            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "#52525e"; (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.1)"; }}
+            className="font-mono text-xs px-3 py-1.5 btn-press"
+            style={{ border: `1px solid ${B1}`, color: T3, transition: "color 150ms, border-color 150ms" }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = T1; (e.currentTarget as HTMLElement).style.borderColor = B1; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = T3; (e.currentTarget as HTMLElement).style.borderColor = B1; }}
           >
             audit trail →
           </button>
@@ -150,29 +148,30 @@ export default function ChatWindow() {
         {messages.map((msg, i) => <Bubble key={i} msg={msg} />)}
         {loading && <TypingIndicator />}
 
-        {/* Suggestions — shown until user sends first message */}
         {showSuggestions && messages.length === 1 && !loading && (
-          <div className="pt-6">
-            <p className="text-[10px] font-mono text-[#2a2a35] mb-3 uppercase tracking-widest">Try asking</p>
+          <div className="pt-4">
+            <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: T3, letterSpacing: "0.12em" }}>
+              Try asking
+            </p>
             <div className="flex flex-col gap-2">
-              {SUGGESTIONS.map((s) => (
+              {SUGGESTIONS.map(s => (
                 <button
                   key={s}
                   onClick={() => send(s)}
-                  className="text-left text-xs font-mono px-3 py-2.5 btn-press"
+                  className="text-left font-mono text-xs px-4 py-3 btn-press"
                   style={{
-                    border: "1px solid rgba(255,255,255,0.06)",
-                    background: "#0f0f15",
-                    color: "#52525e",
+                    border: `1px solid ${B2}`,
+                    background: "#0e0e14",
+                    color: T2,
                     transition: "color 150ms, border-color 150ms, background 150ms",
                   }}
                   onMouseEnter={e => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.color = "#ededf0"; el.style.borderColor = "rgba(255,255,255,0.12)"; el.style.background = "#141420";
+                    el.style.color = T1; el.style.borderColor = B1; el.style.background = "#141420";
                   }}
                   onMouseLeave={e => {
                     const el = e.currentTarget as HTMLElement;
-                    el.style.color = "#52525e"; el.style.borderColor = "rgba(255,255,255,0.06)"; el.style.background = "#0f0f15";
+                    el.style.color = T2; el.style.borderColor = B2; el.style.background = "#0e0e14";
                   }}
                 >
                   {s}
@@ -181,14 +180,13 @@ export default function ChatWindow() {
             </div>
           </div>
         )}
-
         <div ref={bottomRef} />
       </div>
 
       {/* Input */}
       <div
         className="shrink-0 px-6 py-4"
-        style={{ borderTop: "1px solid rgba(255,255,255,0.07)", background: "#0a0a0e" }}
+        style={{ borderTop: `1px solid ${B2}`, background: "#09090e" }}
       >
         <div className="flex gap-2 items-end">
           <textarea
@@ -199,42 +197,41 @@ export default function ChatWindow() {
             placeholder="Message AgentSupport… (Enter to send)"
             rows={1}
             disabled={loading}
-            className="flex-1 text-sm font-mono resize-none focus:outline-none disabled:opacity-40"
+            className="flex-1 font-mono text-sm resize-none focus:outline-none disabled:opacity-40"
             style={{
-              background: "#0f0f15",
-              border: "1px solid rgba(255,255,255,0.08)",
-              color: "#ededf0",
-              padding: "12px 14px",
-              caretColor: "#8b5cf6",
+              background: "#0f0f18",
+              border: `1px solid ${B1}`,
+              color: T1,
+              padding: "13px 16px",
+              caretColor: "rgba(255,255,255,0.70)",
               transition: "border-color 150ms",
             }}
-            onFocus={e => (e.currentTarget.style.borderColor = "rgba(139,92,246,0.4)")}
-            onBlur={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.08)")}
+            onFocus={e => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.22)")}
+            onBlur={e => (e.currentTarget.style.borderColor = B1)}
           />
           <button
             onClick={() => send()}
             disabled={loading || !input.trim()}
-            className="shrink-0 w-10 h-10 flex items-center justify-center btn-press"
+            className="shrink-0 w-11 h-11 flex items-center justify-center btn-press"
             style={{
-              background: !input.trim() || loading ? "#0f0f15" : "#7c3aed",
-              border: "1px solid",
-              borderColor: !input.trim() || loading ? "rgba(255,255,255,0.08)" : "transparent",
+              background: input.trim() && !loading ? "rgba(255,255,255,0.90)" : "#0f0f18",
+              border: `1px solid ${input.trim() && !loading ? "transparent" : B1}`,
               transition: "background 150ms, border-color 150ms",
             }}
           >
             {loading ? (
-              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" style={{ color: T3 }}>
                 <circle className="opacity-20" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" />
-                <path className="opacity-80" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                <path className="opacity-70" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
               </svg>
             ) : (
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" style={{ color: !input.trim() ? "#2a2a35" : "white" }}>
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" style={{ color: input.trim() ? "#06060a" : T3 }}>
                 <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
               </svg>
             )}
           </button>
         </div>
-        <p className="mt-2 text-[9px] font-mono text-[#1e1e26]">
+        <p className="font-mono mt-2" style={{ fontSize: 10, color: "rgba(255,255,255,0.18)" }}>
           shift+enter for new line · session: {sessionId ? sessionId.slice(0, 8) : "…"}
         </p>
       </div>

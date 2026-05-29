@@ -2,59 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design tokens ────────────────────────────────────────── */
 :root {
-  --bg:       #08080b;
-  --surface:  #0f0f15;
-  --border:   rgba(255,255,255,0.07);
-  --text:     #ededf0;
-  --muted:    #52525e;
-  --violet:   #8b5cf6;
-  --emerald:  #10b981;
-  --amber:    #f59e0b;
-  --blue:     #60a5fa;
-  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+  /* Backgrounds */
+  --bg:      #060609;
+  --surface: #0d0d14;
+  --raised:  #141420;
+
+  /* Text — opacity system (never flat hex for text) */
+  --t1: rgba(255,255,255,0.90);   /* primary */
+  --t2: rgba(255,255,255,0.52);   /* secondary — clear and readable */
+  --t3: rgba(255,255,255,0.30);   /* tertiary / labels / metadata */
+
+  /* Borders */
+  --b1: rgba(255,255,255,0.10);   /* visible border */
+  --b2: rgba(255,255,255,0.06);   /* subtle border */
+
+  /* Accent — only emerald for live/online state */
+  --emerald: #10b981;
+
+  /* Fonts */
   --font-display: "Instrument Serif", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: system-ui, -apple-system, sans-serif;
+
+  /* Easing */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; background: var(--bg); }
 
 .font-display { font-family: var(--font-display); }
-pre, code, .font-mono { font-family: var(--font-mono); }
+.font-mono    { font-family: var(--font-mono); }
 
-/* ── Noise texture ───────────────────────────────────────── */
-.bg-noise {
-  position: relative;
-}
-.bg-noise::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-  border-radius: inherit;
-}
-
-/* ── Scrollbar ───────────────────────────────────────────── */
+/* ── Scrollbar ────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: #2a2a35; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: var(--violet); }
+::-webkit-scrollbar-thumb { background: #222230; }
+::-webkit-scrollbar-thumb:hover { background: var(--emerald); }
 
-/* ══════════════════════════════════════════════════════════
+/* ═════════════════════════════════════════════════════════════
    KEYFRAMES
-══════════════════════════════════════════════════════════ */
+═════════════════════════════════════════════════════════════ */
 
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(22px); }
   to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
 }
 @keyframes slide-right {
   from { opacity: 0; transform: translateX(-14px); }
@@ -70,109 +64,112 @@ pre, code, .font-mono { font-family: var(--font-mono); }
   100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
 }
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-9px); }
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
 }
 @keyframes scanline {
   0%   { transform: translateY(-4px); opacity: 0; }
-  8%   { opacity: 1; }
-  92%  { opacity: 0.6; }
-  100% { transform: translateY(280px); opacity: 0; }
+  6%   { opacity: 0.8; }
+  94%  { opacity: 0.6; }
+  100% { transform: translateY(320px); opacity: 0; }
 }
 @keyframes reveal-in {
-  from { opacity: 0; transform: translateY(24px); }
+  from { opacity: 0; transform: translateY(28px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-@keyframes typing-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 @keyframes dot-bounce {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50%       { transform: translateY(-4px); opacity: 1; }
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50%       { transform: translateY(-5px); opacity: 1; }
 }
 
-/* ══════════════════════════════════════════════════════════
-   HERO ENTRANCE (stagger)
-══════════════════════════════════════════════════════════ */
-.hero-1 { animation: fade-up 0.8s var(--ease-expo) 0.05s both; }
-.hero-2 { animation: fade-up 0.8s var(--ease-expo) 0.18s both; }
-.hero-3 { animation: fade-up 0.7s var(--ease-expo) 0.30s both; }
-.hero-4 { animation: fade-up 0.7s var(--ease-expo) 0.42s both; }
-.hero-5 { animation: fade-up 0.7s var(--ease-expo) 0.54s both; }
+/* ═════════════════════════════════════════════════════════════
+   HERO ENTRANCE
+═════════════════════════════════════════════════════════════ */
+.hero-1 { animation: fade-up 0.9s var(--ease) 0.05s both; }
+.hero-2 { animation: fade-up 0.9s var(--ease) 0.20s both; }
+.hero-3 { animation: fade-up 0.8s var(--ease) 0.38s both; }
+.hero-4 { animation: fade-up 0.8s var(--ease) 0.52s both; }
+.hero-5 { animation: fade-up 0.8s var(--ease) 0.66s both; }
 
-/* ══════════════════════════════════════════════════════════
-   TERMINAL ANIMATIONS
-══════════════════════════════════════════════════════════ */
-.step-1 { animation: slide-right 0.45s var(--ease-expo) 0.7s  both; }
-.step-2 { animation: slide-right 0.45s var(--ease-expo) 1.5s  both; }
-.step-3 { animation: slide-right 0.45s var(--ease-expo) 2.4s  both; }
-.step-4 { animation: slide-right 0.45s var(--ease-expo) 3.3s  both; }
-.step-5 { animation: slide-right 0.45s var(--ease-expo) 4.1s  both; }
-.step-response { animation: fade-up 0.55s var(--ease-expo) 5.0s both; }
+/* ═════════════════════════════════════════════════════════════
+   TERMINAL STEP ANIMATIONS (Image #3 — keep exactly)
+═════════════════════════════════════════════════════════════ */
+.step-1 { animation: slide-right 0.45s var(--ease) 0.7s  both; }
+.step-2 { animation: slide-right 0.45s var(--ease) 1.5s  both; }
+.step-3 { animation: slide-right 0.45s var(--ease) 2.4s  both; }
+.step-4 { animation: slide-right 0.45s var(--ease) 3.3s  both; }
+.step-5 { animation: slide-right 0.45s var(--ease) 4.1s  both; }
+.step-response { animation: fade-up 0.6s var(--ease) 5.0s both; }
 
-.progress-1 { animation: progress-fill 0.6s var(--ease-expo) 1.0s  both; }
-.progress-2 { animation: progress-fill 0.6s var(--ease-expo) 1.9s  both; }
-.progress-3 { animation: progress-fill 0.6s var(--ease-expo) 2.8s  both; }
-.progress-4 { animation: progress-fill 0.6s var(--ease-expo) 3.7s  both; }
+.progress-1 { animation: progress-fill 0.65s var(--ease) 1.0s  both; }
+.progress-2 { animation: progress-fill 0.65s var(--ease) 1.9s  both; }
+.progress-3 { animation: progress-fill 0.65s var(--ease) 2.8s  both; }
+.progress-4 { animation: progress-fill 0.65s var(--ease) 3.7s  both; }
 
+/* Scanline sweeps after animation settles */
 .terminal-scanline {
   position: absolute;
   left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(139,92,246,0.4) 50%, transparent);
-  animation: scanline 2.2s var(--ease-out) 6.2s infinite;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08) 50%, transparent);
+  animation: scanline 2.5s var(--ease) 6.5s infinite;
   pointer-events: none;
   z-index: 10;
 }
 
-.animate-float { animation: float 5.5s var(--ease-out) infinite; }
-.pulse-ring     { animation: pulse-ring 2.2s var(--ease-out) infinite; }
+.animate-float { animation: float 5.5s ease-in-out infinite; }
+.pulse-ring     { animation: pulse-ring 2.2s ease-out infinite; }
 
-/* ══════════════════════════════════════════════════════════
+/* ═════════════════════════════════════════════════════════════
    SCROLL REVEAL
-══════════════════════════════════════════════════════════ */
-.reveal { opacity: 0; transform: translateY(24px); }
-.reveal.visible { animation: reveal-in 0.65s var(--ease-expo) both; }
+═════════════════════════════════════════════════════════════ */
+.reveal { opacity: 0; transform: translateY(28px); }
+.reveal.visible { animation: reveal-in 0.7s var(--ease) both; }
 
-/* ══════════════════════════════════════════════════════════
-   MICRO-INTERACTIONS
-══════════════════════════════════════════════════════════ */
-.btn-press { transition: transform 110ms var(--ease-expo); }
-.btn-press:active { transform: scale(0.95); }
-
-/* Audit step hover */
-.audit-step {
-  transition: border-color 200ms var(--ease-expo), background 200ms var(--ease-expo);
+/* ═════════════════════════════════════════════════════════════
+   MARQUEE
+═════════════════════════════════════════════════════════════ */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
 }
-.audit-step:hover {
-  border-color: rgba(255,255,255,0.12) !important;
-  background: #0f0f18 !important;
-}
+.marquee-track:hover { animation-play-state: paused; }
 
-/* Feature row hover */
+/* ═════════════════════════════════════════════════════════════
+   INTERACTIONS
+═════════════════════════════════════════════════════════════ */
+.btn-press { transition: transform 110ms var(--ease); }
+.btn-press:active { transform: scale(0.96); }
+
+/* Feature row */
 .feature-row {
-  border-top: 1px solid rgba(255,255,255,0.07);
-  transition: background 200ms var(--ease-expo), padding-left 200ms var(--ease-expo);
+  border-top: 1px solid var(--b2);
+  transition: background 220ms var(--ease), padding-left 220ms var(--ease);
+  cursor: default;
 }
-.feature-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.07); }
-.feature-row:hover { background: rgba(255,255,255,0.02); padding-left: 1.5rem; }
-.feature-row .row-num { transition: color 200ms var(--ease-expo); }
-.feature-row:hover .row-num { color: var(--amber); }
+.feature-row:last-child { border-bottom: 1px solid var(--b2); }
+.feature-row:hover { background: rgba(255,255,255,0.025); padding-left: 1.5rem; }
+.feature-num { transition: color 220ms var(--ease); }
+.feature-row:hover .feature-num { color: rgba(255,255,255,0.75); }
+
+/* Audit step row */
+.step-row { transition: background 200ms var(--ease), border-color 200ms var(--ease); }
+.step-row:hover { background: #0f0f18; border-color: var(--b1) !important; }
 
 /* Chat typing dots */
-.typing-dot {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: #4a4a5e;
-}
-.typing-dot:nth-child(1) { animation: dot-bounce 1.2s var(--ease-out) 0s infinite; }
-.typing-dot:nth-child(2) { animation: dot-bounce 1.2s var(--ease-out) 0.15s infinite; }
-.typing-dot:nth-child(3) { animation: dot-bounce 1.2s var(--ease-out) 0.30s infinite; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+.dot:nth-child(1) { animation: dot-bounce 1.2s ease-in-out 0s infinite; }
+.dot:nth-child(2) { animation: dot-bounce 1.2s ease-in-out 0.15s infinite; }
+.dot:nth-child(3) { animation: dot-bounce 1.2s ease-in-out 0.30s infinite; }
 
-/* ══════════════════════════════════════════════════════════
+/* ═════════════════════════════════════════════════════════════
    REDUCED MOTION
-══════════════════════════════════════════════════════════ */
+═════════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
