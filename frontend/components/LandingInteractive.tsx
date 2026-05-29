@@ -121,7 +121,7 @@ function TerminalInner() {
               <div className="flex-1 relative overflow-hidden" style={{ height: "1px", background: "rgba(255,255,255,0.08)" }}>
                 <div className={`absolute inset-y-0 left-0 ${s.bg} ${s.pcls}`} style={{ height: "100%" }} />
               </div>
-              <span style={{ color: s.color, fontSize: "10px" }}>✓</span>
+              <span className={`step-check step-check-${i}`} style={{ color: s.color, fontSize: "10px" }}>✓</span>
             </div>
             <div className="font-mono pl-4" style={{ fontSize: "11px", color: "rgba(255,255,255,0.30)" }}>{s.sub}</div>
           </div>

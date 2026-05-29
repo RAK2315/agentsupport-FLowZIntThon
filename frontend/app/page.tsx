@@ -233,30 +233,30 @@ function Process() {
   return (
     <section style={{ paddingTop: 0, paddingBottom: 140, background: "#06060a" }}>
       <div className="max-w-6xl mx-auto px-8">
-        <div
-          className="grid grid-cols-1 sm:grid-cols-3 gap-px"
-          style={{ border: `1px solid ${B}` }}
-        >
-          {PROCESS_STEPS.map((s, i) => (
-            <div
-              key={s.n}
-              className="process-card"
-              style={{
-                background: "#0a0a0f",
-                borderRight: i < 2 ? `1px solid ${B}` : undefined,
-              }}
-            >
-              <Reveal delay={i * 130}>
+        <Reveal>
+          <div
+            className="process-grid grid grid-cols-1 sm:grid-cols-3 gap-px"
+            style={{ border: `1px solid ${B}` }}
+          >
+            {PROCESS_STEPS.map((s, i) => (
+              <div
+                key={s.n}
+                className="process-card"
+                style={{
+                  background: "#0a0a0f",
+                  borderRight: i < 2 ? `1px solid ${B}` : undefined,
+                }}
+              >
                 <div className="p-10">
                   <div className="process-icon mb-6" style={{ color: "rgba(255,255,255,0.65)" }}>{s.icon}</div>
                   <div className="font-mono text-xs uppercase tracking-widest mb-3" style={{ color: T3, letterSpacing: "0.12em" }}>Step {s.n}</div>
                   <h3 className="font-display mb-3" style={{ fontSize: 22, color: T1, lineHeight: 1.2 }}>{s.label}</h3>
                   <p style={{ fontSize: 14, color: T2, lineHeight: 1.6 }}>{s.note}</p>
                 </div>
-              </Reveal>
-            </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -317,17 +317,17 @@ function AuditShowcase() {
                       #{s.num}
                     </span>
                     <span
-                      className="font-mono text-xs px-2.5 py-1 shrink-0"
+                      className="step-badge font-mono text-xs px-2.5 py-1 shrink-0"
                       style={{ ...Object.fromEntries(s.badge.split(";").filter(Boolean).map(x => { const [k,v]=x.split(":"); return [k.trim().replace(/-([a-z])/g,(_,c)=>c.toUpperCase()), v.trim()]; })) }}
                     >
                       {s.node}
                     </span>
                     {s.tool && (
-                      <span className="font-mono text-xs px-2.5 py-1 shrink-0" style={{ background: "#0e0e14", color: "rgba(255,255,255,0.35)", border: `1px solid ${B}` }}>
+                      <span className="step-badge font-mono text-xs px-2.5 py-1 shrink-0" style={{ background: "#0e0e14", color: "rgba(255,255,255,0.35)", border: `1px solid ${B}` }}>
                         {s.tool}
                       </span>
                     )}
-                    <span className="font-mono text-xs ml-auto hidden sm:block truncate" style={{ color: "rgba(255,255,255,0.20)" }}>
+                    <span className="step-note font-mono text-xs ml-auto hidden sm:block truncate" style={{ color: "rgba(255,255,255,0.20)" }}>
                       {s.note}
                     </span>
                   </div>
